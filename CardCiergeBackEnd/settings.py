@@ -29,7 +29,7 @@ SECRET_KEY = os.environ.get('DJANGO_SECRET_KEY', '((+ai8ylux#89w!wlx2tk)g@z=&e#w
 DEBUG = os.environ.get('DJANGO_DEBUG', '') != 'False'
 
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['cardcierge.herokuapp.com','127.0.0.1']
 
 
 # Application definition

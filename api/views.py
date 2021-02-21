@@ -51,7 +51,7 @@ class CategoryViewSet(ReadOnlyModelViewSet):
 class ComputeBestUserCard(APIView):
     permission_classes = [permissions.IsAuthenticated]
 
-    def get(self, request, format=None):
+    def post(self, request, format=None):
         credit_cards = UserCreditCard.objects.filter(owner=self.request.user)
         if len(credit_cards) == 0: 
             content = {'Error': 'This User has no credit cards'}

@@ -8,6 +8,8 @@ from .models import (
     CreditCardType, 
     Categories,
     Rewards,
+    Network,
+    Issuer
     )
 from .serializers import (
     UserSerializer, 
@@ -69,3 +71,29 @@ class ComputeBestUserCard(APIView):
 
         serializer = UserCreditCardSerializer(max_card)
         return Response(serializer.data, status=status.HTTP_200_OK)
+
+class InitDatabase(APIView):
+    permission_classes = [permissions.IsAdminUser] #need to be an admin user 
+
+    def get(self, request, format=None):
+        #creating a category 
+        cat = Categories(name='Travel')
+        cat.save() 
+
+        #creating a newtork 
+        net = Network(name="Visa")
+        net.save()
+
+        #creating an Issuer 
+        iss = Issuer(name="BOA")
+        iss.save()
+
+        #creating a credit card type
+        cc_type = CreditCardType(name="Cash Rewards",network=net,issuer=iss)
+        cc_type.save() 
+
+        #creating a reward
+        r_1 = Rewards(card=cc_type, category=cat,percent_back=3.2)
+        r_1.save()
+
+        return  Response({"Success"}, status=status.HTTP_200_OK)

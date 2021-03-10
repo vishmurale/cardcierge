@@ -16,4 +16,5 @@ urlpatterns = [
     path('account/register', views.CreateUserView.as_view()), 
     path('token/obtain', obtain_auth_token, name='token_obtain'),
     path('getbestcard', views.ComputeBestUserCard.as_view()),
+    path('init_database', views.InitDatabase.as_view()), 
 ]

@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from .models import UserCreditCard, Categories, CreditCardType
+from .models import UserCreditCard, Categories, CreditCardType, SignUpBonus
 from django.contrib.auth.models import User
 
 class UserSerializer(serializers.ModelSerializer):
@@ -30,7 +30,7 @@ class UserSerializer(serializers.ModelSerializer):
 class UserCreditCardSerializer(serializers.ModelSerializer):
     class Meta:
         model = UserCreditCard
-        fields = ['id', 'owner', 'card_number', 'expiration','security_code', 'card_type']
+        fields = ['id', 'owner', 'card_number', 'expiration','security_code', 'card_type', 'welcome_offer', 'open_date', 'reward_value_override']
         write_only_fields = ('card_number',)
         read_only_fields = ('id','owner') 
 
@@ -42,5 +42,11 @@ class CategorySerializer(serializers.ModelSerializer):
 class CreditCardTypeSerializer(serializers.ModelSerializer):
     class Meta:
         model = CreditCardType
-        fields = ('id', 'name', 'network', 'issuer')
+        fields = ('id', 'name', 'network', 'issuer', 'reward_currency')
+        read_only_fields = ('id',)
+
+class SignUpBonusSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = SignUpBonus
+        fields = ('spend_amount', 'bonus_amount', 'duration_days', 'card_type')
         read_only_fields = ('id',)

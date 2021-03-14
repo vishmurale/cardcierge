@@ -11,9 +11,10 @@ When updating database make sure to run:
     python3 manage.py migrate
 
     If there are errors and you want fresh start:
-        clear the "migrations/" folders  
+        clear the "migrations/" folders -- leave the __init__.py file, or run with --run-syncdb flag (see below)
         remove "db.sqlite3"
         run the above commands
+        make sure to run python3 manage.py migrate --run-syncdb if you delete migrations
 
     If you want a model to appear on the admin page please 
     register it on "admin.py"

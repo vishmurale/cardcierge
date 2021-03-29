@@ -11,6 +11,7 @@ from .models import (
     Issuer,
     RewardCurrency,
     SignUpBonus,
+    Reward
     )
 from .serializers import (
     UserSerializer, 
@@ -72,8 +73,8 @@ class ComputeBestUserCard(APIView):
         best_card = credit_cards[0] 
         best_payout = 0 
     
-        # set this up to use exec
-        local_dict = {}
+        # # set this up to use exec
+        # local_dict = {}
 
         # we calculate payout with the following:
         #   if no SUB attached to card, payout = earn rate * currency value (can be overriden)
@@ -93,9 +94,12 @@ class ComputeBestUserCard(APIView):
             if sub and cc.open_date + datetime.timedelta(days=int(sub.duration_days)) >= datetime.date.today():
                 earn_rate = sub.bonus_amount / sub.spend_amount 
             else:
-                local_dict['cc'] = cc
-                exec(f"earn_rate = cc.card_type.{request.data['category']}", globals(), local_dict)
-                earn_rate = local_dict['earn_rate']
+                # local_dict['cc'] = cc
+                reward = cc.card_type.reward_set.filter(category=request.data['category'])
+                if reward.exists():
+                    earn_rate = cc.card_type.reward_set.get(category=request.data['category']).earn_rate
+                #exec(f"earn_rate = cc.card_type.{request.data['category']}", globals(), local_dict)
+                #earn_rate = local_dict['earn_rate']
 
             payout = earn_rate * multiplier
             # print(f"The payout for {cc} is {payout} and the multiplier is {multiplier} and earn is {earn_rate}")
@@ -111,9 +115,10 @@ class InitDatabase(APIView):
 
     def get(self, request, format=None):
         #creating all categories
+        cats = {}
         for category in categories:
-            cat = Categories(name=category)
-            cat.save() 
+            cats[category] = Categories(name=category)
+            cats[category].save() 
 
         issuers = {}
         networks = {}
@@ -155,16 +160,23 @@ class InitDatabase(APIView):
                         networks[network] = Network(name=network)
                         networks[network].save()
 
-                    statement = "cards[name] = CreditCardType(name=name,network=networks[network],issuer=issuers[issuer],reward_currency=currencies[currency],"
+                    # statement = "cards[name] = CreditCardType(name=name,network=networks[network],issuer=issuers[issuer],reward_currency=currencies[currency],"
+                    # col = 4
+                    # for category in categories:
+                    #     statement += f"{category}=float({row[col]}),"
+                    #     col += 1
+                    # statement = statement.rstrip(',')
+                    # statement += ")"
+                    # exec(statement)
+                    cards[name] = CreditCardType(name=name,network=networks[network],issuer=issuers[issuer],reward_currency=currencies[currency])
+                    cards[name].save()
+                    # add all categories to card
                     col = 4
                     for category in categories:
-                        statement += f"{category}=float({row[col]}),"
+                        c = Reward(card=cards[name], category=cats[category], earn_rate=float(row[col]))
+                        c.save()
+                        #cards[name].categories.add(c)
                         col += 1
-                    statement = statement.rstrip(',')
-                    statement += ")"
-                    exec(statement)
-                    cards[name].save()
-                    
         # set up SUBs
         with open(os.path.dirname(__file__) + '/../Bonus.csv') as cc_data:
             csv_reader = csv.reader(cc_data, delimiter=",")

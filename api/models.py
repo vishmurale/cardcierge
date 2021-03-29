@@ -34,6 +34,7 @@ class RewardCurrency(models.Model):
     def __str__(self):
         return self.currency_name
 
+
 #Available Credit Cards Types
 class CreditCardType(models.Model):
     # basic info
@@ -41,13 +42,19 @@ class CreditCardType(models.Model):
     network =  models.ForeignKey(Network, on_delete=models.CASCADE) 
     issuer = models.ForeignKey(Issuer, on_delete=models.CASCADE)
     reward_currency = models.ForeignKey(RewardCurrency, on_delete=models.CASCADE)
-    
-    # define all the categories, which are mutually exclusive
-    for category in categories:
-        exec(f"{category} = models.DecimalField(max_digits=4, decimal_places=2)")
+    categories = models.ManyToManyField(Categories, through='Reward')
+
+    # # define all the categories, which are mutually exclusive
+    # for category in categories:
+    #     exec(f"{category} = models.DecimalField(max_digits=4, decimal_places=2)")
     
     def __str__(self):
         return str(self.issuer) + ": " + self.name
+
+class Reward(models.Model):
+    card = models.ForeignKey(CreditCardType, on_delete=models.CASCADE)
+    category = models.ForeignKey(Categories, on_delete=models.CASCADE)
+    earn_rate = models.DecimalField(max_digits=5, decimal_places=2)
 
 # welcome offers 
 class SignUpBonus(models.Model):

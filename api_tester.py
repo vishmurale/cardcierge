@@ -22,7 +22,7 @@ base_url = "https://cardcierge.herokuapp.com/" if not DEBUG else "http://127.0.0
 # data = {'username': 'jtruong', "password":"admin"} #NEED TO USE ADMIN ACCOUNT
 # print_data(requests.post(url, data = data))
 # url = base_url+'init_database'
-# headers = {'Authorization': 'Token b2bb3fa6f42d2e9ddc7502d59b0f959bd0130e70'} #Replace token
+# headers = {'Authorization': 'Token c9b6af81a05fea4e1112ddfcb8599c2a9ea3c133'} #Replace token
 # data = {}
 # print(requests.get(url, headers=headers, data = data))
 	
@@ -38,8 +38,8 @@ base_url = "https://cardcierge.herokuapp.com/" if not DEBUG else "http://127.0.0
 
 # #creating a credit card for a user 
 # url = base_url + 'creditcards/'
-# headers = {'Authorization': 'Token b2bb3fa6f42d2e9ddc7502d59b0f959bd0130e70'}
-# data = {'card_number': '22222', "expiration":"7/28", "security_code":"123", "card_type":"2"}
+# headers = {'Authorization': 'Token c9b6af81a05fea4e1112ddfcb8599c2a9ea3c133'}
+# data = {'card_number': '22222', "expiration":"7/28", "security_code":"123", "card_type":"1"}
 # #Notice for card_type, we pass a number, this is the primary key of the credit card type in the data base
 # print_data(requests.post(url, headers=headers, data = data))
 
@@ -89,9 +89,9 @@ base_url = "https://cardcierge.herokuapp.com/" if not DEBUG else "http://127.0.0
 #headers = {'Authorization': 'Token b2bb3fa6f42d2e9ddc7502d59b0f959bd0130e70'}
 #print_data(requests.get(url, headers=headers))
 
-# #given a category return the best credit card 
-# # we can find a list of all possible categories in categories.py
-# url = base_url + 'getbestcard'
-# headers = {'Authorization': 'Token b2bb3fa6f42d2e9ddc7502d59b0f959bd0130e70'}
-# data = {"category":"airbnb"}
-# print_data(requests.post(url, headers=headers, data=data))
+#given a category return the best credit card 
+# we can find a list of all possible categories in categories.py
+url = base_url + 'getbestcard'
+headers = {'Authorization': 'Token c9b6af81a05fea4e1112ddfcb8599c2a9ea3c133'}
+data = {"category":"airbnb"}
+print_data(requests.post(url, headers=headers, data=data))

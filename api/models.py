@@ -44,10 +44,6 @@ class CreditCardType(models.Model):
     reward_currency = models.ForeignKey(RewardCurrency, on_delete=models.CASCADE)
     categories = models.ManyToManyField(Categories, through='Reward')
 
-    # # define all the categories, which are mutually exclusive
-    # for category in categories:
-    #     exec(f"{category} = models.DecimalField(max_digits=4, decimal_places=2)")
-    
     def __str__(self):
         return str(self.issuer) + ": " + self.name
 

@@ -91,7 +91,7 @@ base_url = "https://cardcierge.herokuapp.com/" if not DEBUG else "http://127.0.0
 
 #given a category return the best credit card 
 # we can find a list of all possible categories in categories.py
-url = base_url + 'getbestcard'
-headers = {'Authorization': 'Token c9b6af81a05fea4e1112ddfcb8599c2a9ea3c133'}
-data = {"category":"airbnb"}
-print_data(requests.post(url, headers=headers, data=data))
+# url = base_url + 'getbestcard'
+# headers = {'Authorization': 'Token c9b6af81a05fea4e1112ddfcb8599c2a9ea3c133'}
+# data = {"category":"airbnb"}
+# print_data(requests.post(url, headers=headers, data=data))

@@ -1,6 +1,7 @@
 from rest_framework import serializers
-from .models import UserCreditCard, Categories, CreditCardType
+from .models import UserCreditCard, Categories, CreditCardType, UserSettings
 from django.contrib.auth.models import User
+from django.core.management.utils import get_random_secret_key
 
 class UserSerializer(serializers.ModelSerializer):
     """
@@ -25,6 +26,11 @@ class UserSerializer(serializers.ModelSerializer):
         user.set_password(validated_data['password'])
         user.save()
 
+        #default settings 
+        key = get_random_secret_key()[0:20]
+        obj = UserSettings(key=key, user=user, store_local=False)
+        obj.save() 
+
         return user
 
 class UserCreditCardSerializer(serializers.ModelSerializer):
@@ -38,6 +44,11 @@ class CategorySerializer(serializers.ModelSerializer):
     class Meta:
         model = Categories
         fields = ('name',)
+
+class UserSettingSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = UserSettings
+        fields = ('key','user','store_local')
 
 class CreditCardTypeSerializer(serializers.ModelSerializer):
     class Meta:

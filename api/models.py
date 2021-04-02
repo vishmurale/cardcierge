@@ -1,7 +1,12 @@
 from django.db import models
 from django.contrib.auth.models import User
-
+from .custom_fields import EncryptedField
 # Create your models here.
+
+class UserSettings(models.Model):
+    key = EncryptedField(max_length=20)
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    store_local = models.BooleanField()
 
 #available Network e.g. Visa 
 class Network(models.Model):
@@ -42,7 +47,7 @@ class Rewards(models.Model):
 #User Credit Card 
 class UserCreditCard(models.Model):
     owner = models.ForeignKey(User, on_delete=models.CASCADE)
-    card_number = models.CharField(max_length=16) #SHOULD NOT STORE THIS PLAINTEXT 
-    expiration = models.CharField(max_length=5) #string in format 6/25
-    security_code = models.CharField(max_length=5) #SHOULD NOT STORE THIS PLAINTEXT 
+    card_number = EncryptedField(max_length=16)  
+    expiration = EncryptedField(max_length=5)
+    security_code = EncryptedField(max_length=5) 
     card_type = models.ForeignKey(CreditCardType, on_delete=models.CASCADE)

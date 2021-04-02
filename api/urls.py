@@ -14,7 +14,9 @@ router.register(r'credit_types', views.CreditCardTypeViewSet, basename='credit_t
 urlpatterns = [
     path('', include(router.urls)),
     path('account/register', views.CreateUserView.as_view()), 
-    path('token/obtain', obtain_auth_token, name='token_obtain'),
+    path('token/obtain', views.ObtainExpiringAuthToken.as_view(), name='token_obtain'),
+    path('getusersettings', views.GetUserSettings.as_view()),
+    path('flipuserstorage', views.FlipUserStorageSetting.as_view()),
     path('getbestcard', views.ComputeBestUserCard.as_view()),
     path('init_database', views.InitDatabase.as_view()), 
 ]

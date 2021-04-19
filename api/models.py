@@ -7,20 +7,20 @@ from datetime import date
 # Create your models here.
 
 class UserSettings(models.Model):
-    key = EncryptedField(max_length=20)
+    key = EncryptedField(max_length=100)
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     store_local = models.BooleanField()
 
 #available Network e.g. Visa 
 class Network(models.Model):
-    name = models.CharField(max_length=30, unique=True, primary_key = True)
+    name = models.CharField(max_length=100, unique=True, primary_key = True)
     
     def __str__(self):
         return self.name
 
 #available Issuer e.g. BOA 
 class Issuer(models.Model):
-    name = models.CharField(max_length=30, unique=True, primary_key = True) 
+    name = models.CharField(max_length=100, unique=True, primary_key = True) 
 
     def __str__(self):
         return self.name
@@ -44,7 +44,7 @@ class RewardCurrency(models.Model):
 #Available Credit Cards Types
 class CreditCardType(models.Model):
     # basic info
-    name = models.CharField(max_length=20) #e.g "Cash Rewards" 
+    name = models.CharField(max_length=100) #e.g "Cash Rewards" 
     network =  models.ForeignKey(Network, on_delete=models.CASCADE) 
     issuer = models.ForeignKey(Issuer, on_delete=models.CASCADE)
     reward_currency = models.ForeignKey(RewardCurrency, on_delete=models.CASCADE)

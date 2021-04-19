@@ -31,12 +31,20 @@ def __cipher():
 
 def encrypt(data):
     #remoce any left and right spaces from encoded data
+    print("Original data", data)
     data = data.strip()
     encoded_data = data.rjust(32).encode('utf-8')
     cipher = AES.new(settings.SECRET_KEY[0:32].encode('utf-8'),AES.MODE_ECB) 
-    return base64.b64encode(cipher.encrypt(encoded_data))
+    code = base64.b64encode(cipher.encrypt(encoded_data))
+    print("New Code: ", code)
+    code_as_str = code.decode('utf-8')
+    print("Encrypted: ", code_as_str)
+    return code_as_str
 
 def decrypt(data):
+    print("Got ", data)
+    print("As Code: ", data.encode('utf-8'))
+    data = data.encode('utf-8')
     cipher = AES.new(settings.SECRET_KEY[0:32].encode('utf-8'),AES.MODE_ECB) 
     return cipher.decrypt(base64.b64decode(data)).decode("utf-8").strip()
 

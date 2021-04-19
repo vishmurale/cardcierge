@@ -8,6 +8,7 @@ router = routers.DefaultRouter()
 router.register(r'creditcards', views.UserCrediCardViewSet, basename='creditcard') 
 router.register(r'categories', views.CategoryViewSet, basename='category') 
 router.register(r'credit_types', views.CreditCardTypeViewSet, basename='credit_type') 
+router.register(r'subs', views.SignUpBonusViewSet, basename='sub') 
 # we can register like this and itll import all routes 
 # see here for more: https://www.django-rest-framework.org/api-guide/routers/
 

@@ -3,7 +3,7 @@ import json
 import requests
 
 DEBUG = True
-TOKEN = "b4adbf9e7e787abda661df58fca36b7c79ddcb34" #set a token for use
+TOKEN = "2e31bf48bce375761dfad9b1526a0908cdbf46f5" #set a token for use
 def print_data(response):
 	response_dict = json.loads(response.text)
 	tok = None 
@@ -18,14 +18,14 @@ def print_data(response):
 	
 base_url = "https://cardcierge.herokuapp.com/" if not DEBUG else "http://127.0.0.1:8000/"
 	
-#admin user example	to init database
-#url = base_url +'token/obtain'
-#data = {'username': 'ENTERADMINUSER', "password":"ENTERPASSWORD"} #NEED TO USE ADMIN ACCOUNT
-#print_data(requests.post(url, data = data))
-#url = base_url+'init_database'
-#headers = {'Authorization': 'Token bc0acdc2f6c8d389e54eab5db3bb47661ed6fcd0'} #Replace token
-#data = {}
-#print_data(requests.get(url, headers=headers, data = data))
+##admin user example	to init database
+# url = base_url +'token/obtain'
+# data = {'username': 'vmurale', "password":"123"} #NEED TO USE ADMIN ACCOUNT
+# print_data(requests.post(url, data = data))
+# url = base_url+'init_database'
+# headers = {'Authorization': 'Token 9bd33a7144115d572570a3f2472c20b6e32661df'} #Replace token
+# data = {}
+# print(requests.get(url, headers=headers, data = data))
 	
 ##Example of registering a user...
 # url = base_url+'account/register'
@@ -34,7 +34,7 @@ base_url = "https://cardcierge.herokuapp.com/" if not DEBUG else "http://127.0.0
 
 ##Example of getting token for user 
 # url = base_url +'token/obtain'
-# data = {'username': 'vm373', "password":"itlit"}
+# data = {'username': 'vm373@gmail.com', "password":"itlit"}
 # print_data(requests.post(url, data = data))
 
 ##creating a credit card for a user 
@@ -77,13 +77,42 @@ base_url = "https://cardcierge.herokuapp.com/" if not DEBUG else "http://127.0.0
 # headers = {'Authorization': 'Token {0}'.format(TOKEN)}
 #print_data(requests.get(url, headers=headers))
 
-##given a category return the best credit card 
-#url = base_url + 'getbestcard'
-# headers = {'Authorization': 'Token {0}'.format(TOKEN)}
-#data = {"category":"Travel"}
-#print_data(requests.post(url, headers=headers, data=data))
-
 #get encryption key 
-url = base_url + 'getusersettings'
-headers = {'Authorization': 'Token {0}'.format(TOKEN)}
-print_data(requests.get(url, headers=headers))
+# url = base_url + 'getusersettings'
+# headers = {'Authorization': 'Token {0}'.format(TOKEN)}
+# print_data(requests.get(url, headers=headers))
+
+
+#given a category return the best credit card 
+# we can find a list of all possible categories in categories.py
+# url = base_url + 'getbestcard'
+# headers = {'Authorization': 'Token {0}'.format(TOKEN)}
+# data = {"category":"airbnb"}
+# print_data(requests.post(url, headers=headers, data=data))
+
+
+"""
+Below are above variants related to sign up bonuses 
+"""
+
+
+# #creating a credit card for a user with a sign up bonus
+# url = base_url + 'creditcards/'
+# headers = {'Authorization': 'Token {0}'.format(TOKEN)}
+# data = {'card_number': '1234567890', "expiration":"7/29", "security_code":"123", "card_type":"2", "welcome_offer":"1", "open_date":"2021-03-01", "reward_value_override":"2.0"}
+# # note for card_type and welcome_offer, we pass a number, this is the primary key of the credit card type in the data base
+# # note that welcome_offer, open_date, and reward_value_override are optional fields
+# print_data(requests.post(url, headers=headers, data = data))
+
+# # getting all possible subs
+# url = base_url + 'subs/'
+# headers = {'Authorization': 'Token {0}'.format(TOKEN)}
+# print_data(requests.get(url, headers=headers))
+
+# #updating a credit card to have welcome offer
+# url = base_url + 'creditcards/1/'
+# headers = {'Authorization': 'Token {0}'.format(TOKEN)}
+# data = {"expiration":"8/29", "welcome_offer":"2"}
+# #Notice for card_type, we pass a number, this is the primary key of the credit card type in the data base
+# print_data(requests.patch(url, headers=headers, data = data))
+

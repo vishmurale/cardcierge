@@ -233,65 +233,68 @@ class InitDatabase(APIView):
         currencies = {}
         cards = {}
 
-        # set up currencies
-        with open(os.path.dirname(__file__) + '/../RewardCurrency.csv') as currency_data:
-            csv_reader = csv.reader(currency_data, delimiter=",")
-            for row in csv_reader:
-                if len(row) != 2:
-                    print("There is an issue with the currency data - please try a different CSV file")
-                    return
-                currencies[row[0]] = RewardCurrency(currency_name=row[0], value_percent=float(row[1]))
-                currencies[row[0]].save()
-
-        # load all credit card types, along with networks, issuers, and currencies
-        with open(os.path.dirname(__file__) + '/../CCdata.csv') as cc_data:
-            csv_reader = csv.reader(cc_data, delimiter=",")
-            first_line = True
-            for row in csv_reader:
-                if len(row) != 4 + len(categories):
-                    print("There is an issue with the credit card data - please try a different CSV file")
-                    return
-                # ignore first line
-                if first_line:
-                    first_line = False
-                    continue
-                else:
-                    name = row[0]
-                    issuer = row[1]
-                    network = row[2]
-                    currency = row[3]
-
-                    if issuer not in issuers:
-                        issuers[issuer] = Issuer(name=issuer)
-                        issuers[issuer].save()
-                    if network not in networks:
-                        networks[network] = Network(name=network)
-                        networks[network].save()
-
-                    cards[name] = CreditCardType(name=name,network=networks[network],issuer=issuers[issuer],reward_currency=currencies[currency])
-                    cards[name].save()
-
-                    # add all categories to card
-                    col = 4
-                    for category in categories:
-                        c = Reward(card=cards[name], category=cats[category], earn_rate=float(row[col]))
-                        c.save()
-                        col += 1
-
-        # set up SUBs
-        with open(os.path.dirname(__file__) + '/../Bonus.csv') as cc_data:
-            csv_reader = csv.reader(cc_data, delimiter=",")
-            for row in csv_reader:
-                if len(row) != 4:
-                    print("There is an issue with the bonus data - please try a different CSV file")
-                    return
-
-                sub = SignUpBonus(spend_amount=float(row[1]), bonus_amount=float(row[2]), duration_days=float(row[3]), card_type=cards[row[0]])
-                sub.save()
-
-        # maybe should come back and add some user ccs for testing 
-
         return  Response({"Success"}, status=status.HTTP_200_OK)
+
+
+        # set up currencies
+        # with open(os.path.dirname(__file__) + '/../RewardCurrency.csv') as currency_data:
+        #     csv_reader = csv.reader(currency_data, delimiter=",")
+        #     for row in csv_reader:
+        #         if len(row) != 2:
+        #             print("There is an issue with the currency data - please try a different CSV file")
+        #             return
+        #         currencies[row[0]] = RewardCurrency(currency_name=row[0], value_percent=float(row[1]))
+        #         currencies[row[0]].save()
+
+        # # load all credit card types, along with networks, issuers, and currencies
+        # with open(os.path.dirname(__file__) + '/../CCdata.csv') as cc_data:
+        #     csv_reader = csv.reader(cc_data, delimiter=",")
+        #     first_line = True
+        #     for row in csv_reader:
+        #         if len(row) != 4 + len(categories):
+        #             print("There is an issue with the credit card data - please try a different CSV file")
+        #             return
+        #         # ignore first line
+        #         if first_line:
+        #             first_line = False
+        #             continue
+        #         else:
+        #             name = row[0]
+        #             issuer = row[1]
+        #             network = row[2]
+        #             currency = row[3]
+
+        #             if issuer not in issuers:
+        #                 issuers[issuer] = Issuer(name=issuer)
+        #                 issuers[issuer].save()
+        #             if network not in networks:
+        #                 networks[network] = Network(name=network)
+        #                 networks[network].save()
+
+        #             cards[name] = CreditCardType(name=name,network=networks[network],issuer=issuers[issuer],reward_currency=currencies[currency])
+        #             cards[name].save()
+
+        #             # add all categories to card
+        #             col = 4
+        #             for category in categories:
+        #                 c = Reward(card=cards[name], category=cats[category], earn_rate=float(row[col]))
+        #                 c.save()
+        #                 col += 1
+
+        # # set up SUBs
+        # with open(os.path.dirname(__file__) + '/../Bonus.csv') as cc_data:
+        #     csv_reader = csv.reader(cc_data, delimiter=",")
+        #     for row in csv_reader:
+        #         if len(row) != 4:
+        #             print("There is an issue with the bonus data - please try a different CSV file")
+        #             return
+
+        #         sub = SignUpBonus(spend_amount=float(row[1]), bonus_amount=float(row[2]), duration_days=float(row[3]), card_type=cards[row[0]])
+        #         sub.save()
+
+        # # maybe should come back and add some user ccs for testing 
+
+        # return  Response({"Success"}, status=status.HTTP_200_OK)
 
 class ObtainExpiringAuthToken(ObtainAuthToken):
     """

@@ -28,7 +28,10 @@ from rest_framework import status
 from .categories import categories
 import csv
 import os
+from os import path
 import datetime
+
+from django.conf import settings
 
 import datetime
 import json
@@ -233,7 +236,8 @@ class InitDatabase(APIView):
         currencies = {}
         cards = {}
 
-        with open('../RewardCurrency.csv') as currency_data:
+
+        with open(str(settings.BASE_DIR) + "/csv_files/RewardCurrency.csv") as currency_data:
             csv_reader = csv.reader(currency_data, delimiter=",")
             for row in csv_reader:
                 if len(row) != 2:

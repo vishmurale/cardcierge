@@ -233,10 +233,19 @@ class InitDatabase(APIView):
         currencies = {}
         cards = {}
 
+        with open('../RewardCurrency.csv') as currency_data:
+            csv_reader = csv.reader(currency_data, delimiter=",")
+            for row in csv_reader:
+                if len(row) != 2:
+                    print("There is an issue with the currency data - please try a different CSV file")
+                    return
+                currencies[row[0]] = RewardCurrency(currency_name=row[0], value_percent=float(row[1]))
+                currencies[row[0]].save()
+
         return  Response({"Success"}, status=status.HTTP_200_OK)
 
 
-        # set up currencies
+        # # set up currencies
         # with open(os.path.dirname(__file__) + '/../RewardCurrency.csv') as currency_data:
         #     csv_reader = csv.reader(currency_data, delimiter=",")
         #     for row in csv_reader:

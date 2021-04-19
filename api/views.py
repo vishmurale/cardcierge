@@ -160,13 +160,13 @@ class GetUserSettings(APIView):
     permission_classes = [permissions.IsAuthenticated]
 
     def get(self, request, format=None):
-        try: 
-            settings = UserSettings.objects.get(user=self.request.user)
-            serialized_data = UserSettingSerializer(settings)
-            return Response({"settings":serialized_data.data}, status=status.HTTP_200_OK) 
-        except:
-            content = {'Error': 'Something went wrong!'}
-            return Response(content, status=status.HTTP_412_PRECONDITION_FAILED)
+        # try: 
+        settings = UserSettings.objects.get(user=self.request.user)
+        serialized_data = UserSettingSerializer(settings)
+        return Response({"settings":serialized_data.data}, status=status.HTTP_200_OK) 
+        # except:
+            # content = {'Error': 'Something went wrong!'}
+            # return Response(content, status=status.HTTP_412_PRECONDITION_FAILED)
 
 
 class FlipUserStorageSetting(APIView):

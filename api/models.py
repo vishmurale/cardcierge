@@ -7,7 +7,7 @@ from datetime import date
 # Create your models here.
 
 class UserSettings(models.Model):
-    key = EncryptedField(max_length=512) 
+    key = EncryptedField(max_length=200) 
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     store_local = models.BooleanField()
 
@@ -73,9 +73,9 @@ class SignUpBonus(models.Model):
 #User Credit Card 
 class UserCreditCard(models.Model):
     owner = models.ForeignKey(User, on_delete=models.CASCADE)
-    card_number = EncryptedField(max_length=512)  
-    expiration = EncryptedField(max_length=512)
-    security_code = EncryptedField(max_length=512) 
+    card_number = EncryptedField(max_length=200)  
+    expiration = EncryptedField(max_length=200)
+    security_code = EncryptedField(max_length=200) 
     card_type = models.ForeignKey(CreditCardType, on_delete=models.CASCADE)
 
     # these are all optional - maybe open date should be mandatory?

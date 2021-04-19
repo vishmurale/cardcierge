@@ -21,8 +21,7 @@ def __cipher():
 def encrypt(data):
     """ The entrypoint for encrypting our field. """
     FILL=__fill()+__fill()+__fill() # This is used to generate filler so we can satisfy the block size of AES.  It is best to pad with random data, than to pad with say nulls.
-    en_text = __cipher().encrypt(bytes(data, 'utf-8')+b'|'+FILL[len(data)+1:])
-    return en_text
+    return __cipher().encrypt(bytes(data, 'utf-8')+b'|'+FILL[len(data)+1:])
 
 def decrypt(data):
     """ Entrypoint for decryption """

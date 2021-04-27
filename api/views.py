@@ -22,6 +22,7 @@ from .serializers import (
     UserSettingSerializer,
     SignUpBonusSerializer,
     )
+from .infer_category_tools import get_category
 from rest_framework.viewsets import ModelViewSet, ReadOnlyModelViewSet
 from rest_framework.response import Response
 from rest_framework import status
@@ -72,6 +73,20 @@ class SignUpBonusViewSet(ReadOnlyModelViewSet):
     queryset = SignUpBonus.objects.all()
     serializer_class = SignUpBonusSerializer
     permission_classes=[permissions.IsAuthenticated, ]
+
+class InferCategory(APIView):
+    permission_classes = [permissions.IsAuthenticated]
+
+    def post(self, request, format=None):
+        try:
+            url = request.data["url"]
+        except:
+            return Response({"ERROR": "no url provided"}, status=status.HTTP_400_BAD_REQUEST)
+
+        category = get_category(url)
+
+        opt_data = {"category": category} 
+        return Response(opt_data, status=status.HTTP_200_OK)
 
 class ComputeBestUserCard(APIView):
     permission_classes = [permissions.IsAuthenticated]

@@ -32,10 +32,16 @@ base_url = "https://cardcierge.herokuapp.com/" if not DEBUG else "http://127.0.0
 # data = {'username': 'vm373', "password":"itlit"}
 # print_data(requests.post(url, data = data))
 
-##Example of getting token for user 
+#Example of getting token for user 
 # url = base_url +'token/obtain'
-# data = {'username': 'vm373@gmail.com', "password":"itlit"}
+# data = {'username': 'jaredtruong', "password":"admin"}
 # print_data(requests.post(url, data = data))
+
+# #Example of inferring catogery 
+# url = base_url + "infercategory"
+# data = {"url" : "https://www.bestbuy.com/site/insignia-5-qt-digital-air-fryer-stainless-steel/6351671.p?skuId=6351671"}
+# headers = {'Authorization': 'Token {0}'.format("a4f37e20746f8f9d0e5f8910bed75848507f0917")}
+# print_data(requests.post(url, headers=headers, data = data))
 
 ##creating a credit card for a user 
 # url = base_url + 'creditcards/'

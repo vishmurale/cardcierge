@@ -19,5 +19,6 @@ urlpatterns = [
     path('getusersettings', views.GetUserSettings.as_view()),
     path('flipuserstorage', views.FlipUserStorageSetting.as_view()),
     path('getbestcard', views.ComputeBestUserCard.as_view()),
+    path('infercategory', views.InferCategory.as_view()),
     path('init_database', views.InitDatabase.as_view()), 
 ]
